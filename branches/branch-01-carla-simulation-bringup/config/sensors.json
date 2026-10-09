@@ -1,0 +1,79 @@
+{
+  "objects": [
+    {
+      "type": "sensor.camera.rgb",
+      "id": "front_rgb_camera",
+      "spawn_point": {
+        "x": 1.2,
+        "y": 0.0,
+        "z": 1.3,
+        "roll": 0.0,
+        "pitch": -2.0,
+        "yaw": 0.0
+      },
+      "image_size_x": 1280,
+      "image_size_y": 720,
+      "fov": 70.0,
+      "sensor_tick": 0.033,
+      "ros_topic": "/sensors/camera/image_raw"
+    },
+    {
+      "type": "sensor.other.radar",
+      "id": "front_mmwave_radar",
+      "spawn_point": {
+        "x": 2.3,
+        "y": 0.0,
+        "z": 0.5,
+        "roll": 0.0,
+        "pitch": -1.5,
+        "yaw": 0.0
+      },
+      "horizontal_fov": 60.0,
+      "vertical_fov": 20.0,
+      "range": 150.0,
+      "points_per_second": 25000,
+      "sensor_tick": 0.05,
+      "ros_topic": "/sensors/radar/points"
+    },
+    {
+      "type": "sensor.other.ray_cast_semantic",
+      "id": "under_chassis_ultrasonic",
+      "spawn_point": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.35,
+        "roll": 0.0,
+        "pitch": -90.0,
+        "yaw": 0.0
+      },
+      "range": 3.0,
+      "channels": 4,
+      "points_per_second": 4000,
+      "rotation_frequency": 50,
+      "upper_fov": 5.0,
+      "lower_fov": -5.0,
+      "sensor_tick": 0.02,
+      "ros_topic": "/sensors/ultrasonic/range"
+    },
+    {
+      "type": "sensor.other.imu",
+      "id": "chassis_imu",
+      "spawn_point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.2,
+        "roll": 0.0,
+        "pitch": 0.0,
+        "yaw": 0.0
+      },
+      "noise_accel_stddev_x": 0.001,
+      "noise_accel_stddev_y": 0.001,
+      "noise_accel_stddev_z": 0.001,
+      "noise_gyro_stddev_x": 0.001,
+      "noise_gyro_stddev_y": 0.001,
+      "noise_gyro_stddev_z": 0.001,
+      "sensor_tick": 0.01,
+      "ros_topic": "/sensors/imu/data"
+    }
+  ]
+}

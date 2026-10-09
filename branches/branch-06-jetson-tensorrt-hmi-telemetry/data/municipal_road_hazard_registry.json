@@ -1,0 +1,600 @@
+[
+  {
+    "incident_id": "POTH-IND-1791473574-606",
+    "timestamp_iso": "2026-10-08T15:32:54Z",
+    "gps_coordinates": {
+      "latitude": 28.46007,
+      "longitude": 77.022484
+    },
+    "pothole_metrics": {
+      "depth_cm": 0.0,
+      "lateral_offset_m": -1.9,
+      "severity_level": "LOW",
+      "confidence": 0.76
+    },
+    "sensors_fused": [
+      "camera"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473576-950",
+    "timestamp_iso": "2026-10-08T15:32:56Z",
+    "gps_coordinates": {
+      "latitude": 28.455899,
+      "longitude": 77.023923
+    },
+    "pothole_metrics": {
+      "depth_cm": 0.0,
+      "lateral_offset_m": 0.62,
+      "severity_level": "LOW",
+      "confidence": 0.75
+    },
+    "sensors_fused": [
+      "camera"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473591-571",
+    "timestamp_iso": "2026-10-08T15:33:11Z",
+    "gps_coordinates": {
+      "latitude": 28.46239,
+      "longitude": 77.025228
+    },
+    "pothole_metrics": {
+      "depth_cm": 0.0,
+      "lateral_offset_m": -5.35,
+      "severity_level": "LOW",
+      "confidence": 0.81
+    },
+    "sensors_fused": [
+      "camera"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473591-584",
+    "timestamp_iso": "2026-10-08T15:33:11Z",
+    "gps_coordinates": {
+      "latitude": 28.455372,
+      "longitude": 77.030269
+    },
+    "pothole_metrics": {
+      "depth_cm": 0.0,
+      "lateral_offset_m": -5.05,
+      "severity_level": "LOW",
+      "confidence": 0.82
+    },
+    "sensors_fused": [
+      "camera"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473591-597",
+    "timestamp_iso": "2026-10-08T15:33:11Z",
+    "gps_coordinates": {
+      "latitude": 28.458353,
+      "longitude": 77.022461
+    },
+    "pothole_metrics": {
+      "depth_cm": 0.0,
+      "lateral_offset_m": -4.59,
+      "severity_level": "LOW",
+      "confidence": 0.82
+    },
+    "sensors_fused": [
+      "camera"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473591-659",
+    "timestamp_iso": "2026-10-08T15:33:11Z",
+    "gps_coordinates": {
+      "latitude": 28.458672,
+      "longitude": 77.023234
+    },
+    "pothole_metrics": {
+      "depth_cm": 22.0,
+      "lateral_offset_m": -4.59,
+      "severity_level": "HIGH",
+      "confidence": 0.82
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473591-265",
+    "timestamp_iso": "2026-10-08T15:33:11Z",
+    "gps_coordinates": {
+      "latitude": 28.458113,
+      "longitude": 77.02822
+    },
+    "pothole_metrics": {
+      "depth_cm": 0.0,
+      "lateral_offset_m": -3.94,
+      "severity_level": "LOW",
+      "confidence": 0.82
+    },
+    "sensors_fused": [
+      "camera"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473591-856",
+    "timestamp_iso": "2026-10-08T15:33:11Z",
+    "gps_coordinates": {
+      "latitude": 28.45901,
+      "longitude": 77.021636
+    },
+    "pothole_metrics": {
+      "depth_cm": 0.0,
+      "lateral_offset_m": -2.46,
+      "severity_level": "LOW",
+      "confidence": 0.83
+    },
+    "sensors_fused": [
+      "camera"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473592-471",
+    "timestamp_iso": "2026-10-08T15:33:12Z",
+    "gps_coordinates": {
+      "latitude": 28.457183,
+      "longitude": 77.030353
+    },
+    "pothole_metrics": {
+      "depth_cm": 0.0,
+      "lateral_offset_m": 2.52,
+      "severity_level": "LOW",
+      "confidence": 0.82
+    },
+    "sensors_fused": [
+      "camera"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473622-862",
+    "timestamp_iso": "2026-10-08T15:33:42Z",
+    "gps_coordinates": {
+      "latitude": 28.456573,
+      "longitude": 77.023249
+    },
+    "pothole_metrics": {
+      "depth_cm": 6.8,
+      "lateral_offset_m": 0.54,
+      "severity_level": "MEDIUM",
+      "confidence": 0.76
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473625-587",
+    "timestamp_iso": "2026-10-08T15:33:45Z",
+    "gps_coordinates": {
+      "latitude": 28.454713,
+      "longitude": 77.028712
+    },
+    "pothole_metrics": {
+      "depth_cm": 0.0,
+      "lateral_offset_m": -5.1,
+      "severity_level": "LOW",
+      "confidence": 0.76
+    },
+    "sensors_fused": [
+      "camera"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473625-958",
+    "timestamp_iso": "2026-10-08T15:33:45Z",
+    "gps_coordinates": {
+      "latitude": 28.457619,
+      "longitude": 77.030401
+    },
+    "pothole_metrics": {
+      "depth_cm": 0.0,
+      "lateral_offset_m": -1.15,
+      "severity_level": "LOW",
+      "confidence": 0.78
+    },
+    "sensors_fused": [
+      "camera"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473626-538",
+    "timestamp_iso": "2026-10-08T15:33:46Z",
+    "gps_coordinates": {
+      "latitude": 28.460255,
+      "longitude": 77.022468
+    },
+    "pothole_metrics": {
+      "depth_cm": 33.8,
+      "lateral_offset_m": 0.77,
+      "severity_level": "HIGH",
+      "confidence": 0.76
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473626-640",
+    "timestamp_iso": "2026-10-08T15:33:46Z",
+    "gps_coordinates": {
+      "latitude": 28.459388,
+      "longitude": 77.023989
+    },
+    "pothole_metrics": {
+      "depth_cm": 33.8,
+      "lateral_offset_m": -4.47,
+      "severity_level": "HIGH",
+      "confidence": 0.8
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473627-822",
+    "timestamp_iso": "2026-10-08T15:33:47Z",
+    "gps_coordinates": {
+      "latitude": 28.4573,
+      "longitude": 77.02581
+    },
+    "pothole_metrics": {
+      "depth_cm": 0.0,
+      "lateral_offset_m": -0.58,
+      "severity_level": "LOW",
+      "confidence": 0.77
+    },
+    "sensors_fused": [
+      "camera"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473627-982",
+    "timestamp_iso": "2026-10-08T15:33:47Z",
+    "gps_coordinates": {
+      "latitude": 28.46341,
+      "longitude": 77.023743
+    },
+    "pothole_metrics": {
+      "depth_cm": 30.9,
+      "lateral_offset_m": -4.47,
+      "severity_level": "HIGH",
+      "confidence": 0.78
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473650-753",
+    "timestamp_iso": "2026-10-08T15:34:10Z",
+    "gps_coordinates": {
+      "latitude": 28.462073,
+      "longitude": 77.024065
+    },
+    "pothole_metrics": {
+      "depth_cm": 13.0,
+      "lateral_offset_m": -0.39,
+      "severity_level": "HIGH",
+      "confidence": 0.81
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473651-605",
+    "timestamp_iso": "2026-10-08T15:34:11Z",
+    "gps_coordinates": {
+      "latitude": 28.45928,
+      "longitude": 77.026834
+    },
+    "pothole_metrics": {
+      "depth_cm": 11.1,
+      "lateral_offset_m": -0.13,
+      "severity_level": "HIGH",
+      "confidence": 0.79
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473651-675",
+    "timestamp_iso": "2026-10-08T15:34:11Z",
+    "gps_coordinates": {
+      "latitude": 28.459527,
+      "longitude": 77.025414
+    },
+    "pothole_metrics": {
+      "depth_cm": 31.2,
+      "lateral_offset_m": -0.12,
+      "severity_level": "HIGH",
+      "confidence": 0.77
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473652-231",
+    "timestamp_iso": "2026-10-08T15:34:12Z",
+    "gps_coordinates": {
+      "latitude": 28.463948,
+      "longitude": 77.026014
+    },
+    "pothole_metrics": {
+      "depth_cm": 9.1,
+      "lateral_offset_m": -0.11,
+      "severity_level": "HIGH",
+      "confidence": 0.78
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473652-714",
+    "timestamp_iso": "2026-10-08T15:34:12Z",
+    "gps_coordinates": {
+      "latitude": 28.457903,
+      "longitude": 77.022314
+    },
+    "pothole_metrics": {
+      "depth_cm": 17.3,
+      "lateral_offset_m": -0.13,
+      "severity_level": "HIGH",
+      "confidence": 0.79
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473652-958",
+    "timestamp_iso": "2026-10-08T15:34:12Z",
+    "gps_coordinates": {
+      "latitude": 28.461961,
+      "longitude": 77.022517
+    },
+    "pothole_metrics": {
+      "depth_cm": 14.6,
+      "lateral_offset_m": -0.31,
+      "severity_level": "HIGH",
+      "confidence": 0.76
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473652-488",
+    "timestamp_iso": "2026-10-08T15:34:12Z",
+    "gps_coordinates": {
+      "latitude": 28.4552,
+      "longitude": 77.021907
+    },
+    "pothole_metrics": {
+      "depth_cm": 11.0,
+      "lateral_offset_m": -1.02,
+      "severity_level": "HIGH",
+      "confidence": 0.77
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473656-430",
+    "timestamp_iso": "2026-10-08T15:34:16Z",
+    "gps_coordinates": {
+      "latitude": 28.463305,
+      "longitude": 77.027313
+    },
+    "pothole_metrics": {
+      "depth_cm": 8.2,
+      "lateral_offset_m": -0.82,
+      "severity_level": "HIGH",
+      "confidence": 0.78
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473671-694",
+    "timestamp_iso": "2026-10-08T15:34:31Z",
+    "gps_coordinates": {
+      "latitude": 28.456138,
+      "longitude": 77.021986
+    },
+    "pothole_metrics": {
+      "depth_cm": 6.1,
+      "lateral_offset_m": -0.23,
+      "severity_level": "MEDIUM",
+      "confidence": 0.84
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473672-927",
+    "timestamp_iso": "2026-10-08T15:34:32Z",
+    "gps_coordinates": {
+      "latitude": 28.455626,
+      "longitude": 77.025823
+    },
+    "pothole_metrics": {
+      "depth_cm": 16.8,
+      "lateral_offset_m": -0.23,
+      "severity_level": "HIGH",
+      "confidence": 0.84
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473717-738",
+    "timestamp_iso": "2026-10-08T15:35:17Z",
+    "gps_coordinates": {
+      "latitude": 28.456458,
+      "longitude": 77.025747
+    },
+    "pothole_metrics": {
+      "depth_cm": 14.0,
+      "lateral_offset_m": -0.76,
+      "severity_level": "HIGH",
+      "confidence": 0.77
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473855-702",
+    "timestamp_iso": "2026-10-08T15:37:35Z",
+    "gps_coordinates": {
+      "latitude": 28.463572,
+      "longitude": 77.021986
+    },
+    "pothole_metrics": {
+      "depth_cm": 27.7,
+      "lateral_offset_m": -5.62,
+      "severity_level": "HIGH",
+      "confidence": 0.8
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791473856-868",
+    "timestamp_iso": "2026-10-08T15:37:36Z",
+    "gps_coordinates": {
+      "latitude": 28.456205,
+      "longitude": 77.027123
+    },
+    "pothole_metrics": {
+      "depth_cm": 21.9,
+      "lateral_offset_m": -5.43,
+      "severity_level": "HIGH",
+      "confidence": 0.79
+    },
+    "sensors_fused": [
+      "camera",
+      "sonar"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  }
+]
