@@ -28,6 +28,7 @@ except ImportError:
 # Import local preprocessing module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from preprocessing import AdverseWeatherPreprocessor
+from rdd_pothole_filter import RDDPotholeValidator
 
 # Try importing ultralytics YOLO
 try:
@@ -38,85 +39,40 @@ except ImportError:
 
 class FallbackRoadAnomalyDetector:
     """
-    Strict road-surface-only contour detector.
-    Fixes:
-      - ROI restricted to bottom 35% of frame (actual road surface only)
-      - Minimum area raised to 3000 px2 (removes rain splash noise)
-      - Solidity check: only compact blob shapes (not elongated lane lines)
-      - Non-Maximum Suppression (NMS) to prevent duplicate boxes
-      - Minimum confidence threshold 0.70 (suppresses low-confidence noise)
+    Calibrated RDD Pothole Detector & False-Positive Filter.
+    Filters out non-potholes:
+      - Longitudinal cracks (D00, w/h < 0.85)
+      - Transverse cracks (D10, w/h > 3.20)
+      - Alligator cracks (D20, solidity < 0.60)
+      - Road paint & lane markings (D60, rim gradient < 18.0)
+      - Rain splash & pebble noise (area < 650 px^2)
     """
     def __init__(self):
         self.preprocessor = AdverseWeatherPreprocessor()
-        self.MIN_AREA = 3000
-        self.MAX_AREA = 35000
-        self.MIN_SOLIDITY = 0.45
-        self.ASPECT_MIN = 0.6
-        self.ASPECT_MAX = 3.5
-        self.MIN_CONF = 0.70
-        self.NMS_THRESH = 0.35
-
-    def _nms(self, detections):
-        """Remove overlapping duplicate boxes using IoU Non-Maximum Suppression."""
-        if not detections:
-            return []
-        boxes = [[d['bbox'][0], d['bbox'][1], d['bbox'][2], d['bbox'][3]] for d in detections]
-        scores = [d['conf'] for d in detections]
-        order = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)
-        keep = []
-        while order:
-            i = order.pop(0)
-            keep.append(i)
-            remaining = []
-            for j in order:
-                ix1 = max(boxes[i][0], boxes[j][0])
-                iy1 = max(boxes[i][1], boxes[j][1])
-                ix2 = min(boxes[i][2], boxes[j][2])
-                iy2 = min(boxes[i][3], boxes[j][3])
-                inter = max(0, ix2 - ix1) * max(0, iy2 - iy1)
-                area_i = (boxes[i][2]-boxes[i][0]) * (boxes[i][3]-boxes[i][1])
-                area_j = (boxes[j][2]-boxes[j][0]) * (boxes[j][3]-boxes[j][1])
-                iou = inter / float(area_i + area_j - inter + 1e-6)
-                if iou < self.NMS_THRESH:
-                    remaining.append(j)
-            order = remaining
-        return [detections[i] for i in keep]
+        self.validator = RDDPotholeValidator()
+        self.kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 5))
 
     def detect(self, frame):
         h, w = frame.shape[:2]
-        roi_top = int(h * 0.40)
-        roi_bot = int(h * 0.92)
-        roi = frame[roi_top:roi_bot, :]
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        # 1. Color contrast mask for road debris/potholes on asphalt
-        hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
-        mask_color = cv2.inRange(hsv, (5, 15, 30), (42, 220, 225))
+        # 1. Color contrast mask restricted by drivable road trapezoid
+        mask_color = cv2.inRange(hsv, (5, 20, 25), (42, 215, 210))
+        mask_color[gray > 170] = 0 # Suppress bright paint
+        mask_color = cv2.bitwise_and(mask_color, mask_color, mask=self.validator.road_mask)
 
-        # 2. Suppress bright lane lines
-        gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-        mask_color[gray > 185] = 0
-
-        # 3. Morphological cleanup
-        kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 5))
-        cleaned = cv2.morphologyEx(mask_color, cv2.MORPH_CLOSE, kernel, iterations=2)
+        # 2. Morphological cleanup
+        cleaned = cv2.morphologyEx(mask_color, cv2.MORPH_CLOSE, self.kernel, iterations=2)
         contours, _ = cv2.findContours(cleaned, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        raw_detections = []
+        detections = []
         for cnt in contours:
-            area = cv2.contourArea(cnt)
-            if 180 < area < 35000:
-                x, y, bw, bh = cv2.boundingRect(cnt)
-                ar = bw / max(bh, 1)
-                if 0.5 < ar < 5.0:
-                    real_y = y + roi_top
-                    conf = round(min(0.96, 0.72 + (area / 40000.0) * 0.2), 2)
-                    raw_detections.append({
-                        'bbox': [x, real_y, x + bw, real_y + bh],
-                        'conf': conf,
-                        'class': 'D40_Pothole'
-                    })
+            is_valid, reason, conf, meta = self.validator.validate_contour(cnt, gray)
+            if is_valid:
+                detections.append(meta)
 
-        return self._nms(raw_detections)
+        return detections
 
 def main():
     print("==========================================================================")
@@ -203,18 +159,19 @@ def main():
             if isinstance(model, FallbackRoadAnomalyDetector):
                 detections = model.detect(frame)
             else:
-                results = model(enhanced, verbose=False, conf=0.35)[0]
+                results = model(enhanced, verbose=False, conf=0.45)[0]
                 for box in results.boxes:
                     cls_id = int(box.cls[0])
-                    cls_name = model.names[cls_id]
-                    # Map detections to pothole/hazard taxonomy
-                    conf = float(box.conf[0])
-                    coords = [int(v) for v in box.xyxy[0].tolist()]
-                    detections.append({
-                        'bbox': coords,
-                        'conf': round(conf, 2),
-                        'class': f"Hazard_{cls_name}"
-                    })
+                    cls_name = str(model.names[cls_id]).upper()
+                    # Strictly filter for genuine D40 Pothole class (rejects COCO objects & non-potholes)
+                    if any(target in cls_name for target in ['D40', 'POTHOLE']):
+                        conf = float(box.conf[0])
+                        coords = [int(v) for v in box.xyxy[0].tolist()]
+                        detections.append({
+                            'bbox': coords,
+                            'conf': round(conf, 2),
+                            'class': 'D40_Pothole'
+                        })
 
             # Step 3: Publish 2D detections to Person 5 (tcp://127.0.0.1:5556)
             detection_payload = {

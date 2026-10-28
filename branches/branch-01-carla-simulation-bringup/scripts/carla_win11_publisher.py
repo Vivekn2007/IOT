@@ -64,19 +64,28 @@ def main():
         bp_library = world.get_blueprint_library()
         spectator = world.get_spectator()
 
-        # 2. Apply Monsoon Weather Preset
-        print(">>> Injecting Monsoon Weather (100% Rain, 100% Puddles, 75% Fog)...")
+        # 2. Apply Indian Road Damage Dataset (RDD) Realistic Monsoon Weather Preset
+        print(">>> Applying Indian Road Damage Dataset (RDD) Realistic Environment...")
+        print("    - Overcast Monsoon Sky (65% clouds) | Light Drizzle (25%)")
+        print("    - Damp Asphalt with Standing Water Puddles (65% deposits, 75% wetness)")
+        print("    - Clear Forward Visibility (Haze 12% @ 90m) | Natural Daytime Glare (Sun 38 deg)")
         world.set_weather(carla.WeatherParameters(
-            cloudiness=95.0,
-            precipitation=100.0,
-            precipitation_deposits=100.0,
-            wind_intensity=60.0,
-            fog_density=75.0,
-            fog_distance=15.0,
-            wetness=100.0,
-            sun_azimuth_angle=20.0,
-            sun_altitude_angle=15.0
+            cloudiness=65.0,
+            precipitation=25.0,
+            precipitation_deposits=65.0,
+            wind_intensity=30.0,
+            fog_density=12.0,
+            fog_distance=90.0,
+            wetness=75.0,
+            sun_azimuth_angle=45.0,
+            sun_altitude_angle=38.0
         ))
+
+        # Clean up any stale vehicles/sensors/debris from previous runs
+        stale_actors = [a for a in world.get_actors() if ('vehicle' in a.type_id or 'sensor' in a.type_id or 'static.prop.dirtdebris' in a.type_id)]
+        for sa in stale_actors:
+            try: sa.destroy()
+            except Exception: pass
 
         # 3. Spawn Ego-Vehicle
         spawn_points = world.get_map().get_spawn_points()
@@ -86,7 +95,55 @@ def main():
         ego_vehicle = world.spawn_actor(vehicle_bp, spawn_point)
         actor_list.append(ego_vehicle)
         ego_vehicle.set_autopilot(True)
+
+        # Configure Traffic Manager to continuously cruise and ignore stop signs / red lights
+        try:
+            tm = client.get_trafficmanager(8000)
+            tm.ignore_lights_percentage(ego_vehicle, 100.0)
+            tm.ignore_signs_percentage(ego_vehicle, 100.0)
+            tm.set_desired_speed(ego_vehicle, 30.0)
+            tm.auto_lane_change(ego_vehicle, False)
+            print(">>> Traffic Manager configured: Autopilot cruising (ignoring red lights for testing).")
+        except Exception as e:
+            print(f">>> [WARN] Traffic Manager config: {e}")
+
         print(f">>> Ego-Vehicle spawned (ID: {ego_vehicle.id}). Autopilot engaged.")
+
+        # Spawn Realistic Trail of Indian RDD Calibrated Potholes (Spaced 25m-35m apart, natural density)
+        print(">>> Spawning calibrated Indian RDD potholes along driving lane (spaced 25-35m apart)...")
+        # Use large visible broken pavement depression (1.86m x 1.52m)
+        pothole_bp = bp_library.find('static.prop.dirtdebris02') or bp_library.find('static.prop.dirtdebris01')
+        pothole_props = []
+
+        amap = world.get_map()
+        curr_wp = amap.get_waypoint(spawn_point.location)
+        step_wp = curr_wp
+        forward_d = 20.0
+
+        # Spaced natural distribution matching India RDD dataset (strictly 2 to 3 potholes visible ahead)
+        while forward_d < 95.0 and step_wp:
+            # Advance by 25 to 35 meters between distinct pothole occurrences
+            next_wps = step_wp.next(np.random.uniform(25.0, 35.0))
+            if not next_wps: break
+            step_wp = next_wps[0]
+            wp_trans = step_wp.transform
+            r_vec = wp_trans.get_right_vector()
+
+            # Place strictly in left or right wheel tracks where axle wear occurs
+            lateral_pos = np.random.choice([-1.05, 0.80], p=[0.5, 0.5])
+            p_loc = wp_trans.location + r_vec * lateral_pos
+            p_loc.z = wp_trans.location.z + 0.04
+            rot = carla.Rotation(yaw=np.random.uniform(0, 360))
+            try:
+                p_act = world.try_spawn_actor(pothole_bp, carla.Transform(p_loc, rot))
+                if p_act:
+                    actor_list.append(p_act)
+                    pothole_props.append(p_act)
+            except Exception:
+                pass
+            forward_d += 30.0
+
+        print(f">>> Successfully placed {len(pothole_props)} realistically spaced Indian RDD potholes ahead!")
 
         # 4. Sensor 1: Front Optical RGB Camera
         cam_bp = bp_library.find('sensor.camera.rgb')
@@ -198,6 +255,8 @@ def main():
 
         # 8. Main Loop with Spectator Chase Camera
         last_log = time.time()
+        last_actor_scan = time.time()
+
         while True:
             # Update spectator camera to smoothly follow the vehicle
             v_transform = ego_vehicle.get_transform()
@@ -208,14 +267,88 @@ def main():
             cam_rot = carla.Rotation(pitch=-15.0, yaw=v_transform.rotation.yaw, roll=0.0)
             spectator.set_transform(carla.Transform(cam_loc, cam_rot))
 
-            # Query ground-truth pothole props in the world
             now = time.time()
-            all_actors = world.get_actors()
+
+            # Prevent car from stopping at red lights during automated testing
+            tl = ego_vehicle.get_traffic_light()
+            if tl and tl.get_state() != carla.TrafficLightState.Green:
+                tl.set_state(carla.TrafficLightState.Green)
+
+            # Periodically scan and continuously replenish potholes along upcoming waypoints (every 1.5s)
+            if now - last_actor_scan > 1.5:
+                # Strictly track ONLY genuine pothole props (dirtdebris02)
+                raw_props = [a for a in world.get_actors() if a.type_id in ('static.prop.dirtdebris02', 'static.prop.dirtdebris01')]
+                alive_props = []
+                for a in raw_props:
+                    try:
+                        if a and a.is_alive:
+                            alive_props.append(a)
+                    except Exception:
+                        pass
+                pothole_props = alive_props
+                last_actor_scan = now
+
+                # Count potholes ahead in 4m to 60m range
+                ahead_potholes = []
+                farthest_dist = 0.0
+                for a in pothole_props:
+                    try:
+                        al = a.get_location()
+                        dx = al.x - v_transform.location.x
+                        dy = al.y - v_transform.location.y
+                        f_dist = dx * fwd.x + dy * fwd.y
+                        if 4.0 <= f_dist <= 60.0:
+                            ahead_potholes.append(a)
+                            if f_dist > farthest_dist:
+                                farthest_dist = f_dist
+                        elif f_dist < -15.0: # Clean up potholes that vehicle has passed
+                            try:
+                                a.destroy()
+                            except Exception:
+                                pass
+                    except Exception:
+                        pass
+
+                # Maintain realistic Indian RDD density: strictly 2 to 3 potholes in camera range
+                if len(ahead_potholes) < 2:
+                    start_dist = max(20.0, farthest_dist + 25.0)
+                    v_wp = amap.get_waypoint(v_transform.location)
+                    f_wp = v_wp
+                    # Step up to start_dist ahead
+                    for _ in range(max(1, int(start_dist / 10.0))):
+                        if not f_wp: break
+                        nw = f_wp.next(10.0)
+                        if not nw: break
+                        f_wp = nw[0]
+
+                    # Spawn 1-2 new spaced potholes ahead (25m - 35m apart)
+                    spawn_count = max(1, 2 - len(ahead_potholes))
+                    for _ in range(spawn_count):
+                        if not f_wp: break
+                        nw = f_wp.next(np.random.uniform(25.0, 35.0))
+                        if not nw: break
+                        f_wp = nw[0]
+                        r_vec = f_wp.transform.get_right_vector()
+                        # Place strictly in left track (-1.05m) or right track (+0.80m)
+                        lat_choice = np.random.choice([-1.05, 0.80], p=[0.5, 0.5])
+                        ploc = f_wp.transform.location + r_vec * lat_choice
+                        ploc.z = f_wp.transform.location.z + 0.04
+                        try:
+                            pa = world.try_spawn_actor(pothole_bp, carla.Transform(ploc, carla.Rotation(yaw=np.random.uniform(0, 360))))
+                            if pa:
+                                actor_list.append(pa)
+                                pothole_props.append(pa)
+                        except Exception:
+                            pass
+
+            # Query ground-truth pothole props in the world
             gt_potholes = []
             under_chassis_pothole = None
 
-            for a in all_actors:
-                if 'static.prop' in a.type_id:
+            for a in list(pothole_props):
+                try:
+                    if not (a and a.is_alive):
+                        continue
                     a_loc = a.get_location()
                     dx = a_loc.x - v_transform.location.x
                     dy = a_loc.y - v_transform.location.y
@@ -223,7 +356,8 @@ def main():
                     fwd_dist = dx * fwd.x + dy * fwd.y
                     lat_dist = dx * right.x + dy * right.y
                     
-                    if 0.0 < fwd_dist < 85.0 and abs(lat_dist) < 5.0:
+                    # Track defects within the active drivable lane (3m - 60m forward, -1.8m to +1.8m lateral)
+                    if 3.0 < fwd_dist < 60.0 and abs(lat_dist) < 1.8:
                         true_d_cm = round(7.5 + (hash(a.id) % 60) / 10.0, 1) # 7.5 - 13.5 cm
                         gt_potholes.append({
                             'id': a.id,
@@ -232,24 +366,31 @@ def main():
                             'true_depth_cm': true_d_cm,
                             'is_waterlogged': True
                         })
-                    if 0.0 < fwd_dist < 2.0 and abs(lat_dist) < 1.2:
+                    if 0.0 < fwd_dist < 2.0 and abs(lat_dist) < 1.1:
                         under_chassis_pothole = a
                         under_chassis_state['active'] = True
                         under_chassis_state['depth_cm'] = true_d_cm
+                except Exception:
+                    pass
 
             if under_chassis_pothole is None:
                 under_chassis_state['active'] = False
                 under_chassis_state['depth_cm'] = 0.0
 
-            # Publish Ground Truth topic every tick
-            gt_payload = json.dumps({'time': now, 'potholes': sorted(gt_potholes, key=lambda p: p['true_distance_m'])}).encode('utf-8')
+            vel = ego_vehicle.get_velocity()
+            speed = 3.6 * ((vel.x**2 + vel.y**2 + vel.z**2)**0.5)
+
+            # Publish Ground Truth and telemetry every tick
+            gt_payload = json.dumps({
+                'time': now,
+                'speed_kmh': round(speed, 1),
+                'potholes': sorted(gt_potholes, key=lambda p: p['true_distance_m'])
+            }).encode('utf-8')
             with send_lock:
                 pub_socket.send_multipart([b'ground_truth', gt_payload])
 
             # Periodic status print
             if now - last_log >= 1.0:
-                vel = ego_vehicle.get_velocity()
-                speed = 3.6 * ((vel.x**2 + vel.y**2 + vel.z**2)**0.5)
                 print(f"[STATUS] Speed: {speed:>4.1f} km/h | Potholes Ahead: {len(gt_potholes)} | Streaming Active")
                 last_log = now
 

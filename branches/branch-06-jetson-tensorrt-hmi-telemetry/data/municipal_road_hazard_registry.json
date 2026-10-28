@@ -596,5 +596,25 @@
     "chassis_shock_confirmed": false,
     "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
     "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
+  },
+  {
+    "incident_id": "POTH-IND-1791865403-743",
+    "timestamp_iso": "2026-10-13T04:23:23Z",
+    "gps_coordinates": {
+      "latitude": 28.454546,
+      "longitude": 77.026147
+    },
+    "pothole_metrics": {
+      "depth_cm": 0.0,
+      "lateral_offset_m": -1.99,
+      "severity_level": "LOW",
+      "confidence": 0.8
+    },
+    "sensors_fused": [
+      "camera"
+    ],
+    "chassis_shock_confirmed": false,
+    "telemetry_protocol": "NB-IoT (MZH010 Module / CoAP-JSON)",
+    "status": "DISPATCHED_TO_MUNICIPAL_AUTHORITY"
   }
 ]

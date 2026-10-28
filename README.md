@@ -22,8 +22,8 @@
                                                                                         ▼
                                            ┌────────────────────────────────────────────┴──────────────────────────┐
                                            ▼                                                                       ▼
-                   [Person 6: Driver Automotive HMI HUD Display]                      [Person 6: MZH010 NB-IoT Cloud Telemetry]
-                   (Countdown, Deceleration Prompt, Audio Buzzer)                     (Geo-Tagged Municipal Hazard Registry)
+                   [Pothole Sense: Driver HUD & Engineer Console]                     [Person 6: MZH010 NB-IoT Cloud Telemetry]
+                   (Web & Cockpit: Countdown, Radar Scope, Sonar Trace)               (Geo-Tagged Municipal Hazard Registry)
 ```
 
 ---
@@ -41,21 +41,25 @@
 
 ---
 
-## 3. How to Run the Entire System (1-Click Launchers)
+## 3. How to Run the System (1-Click Launchers)
 
 ### Step 1: Simulator & World (Terminals 1, 2 & 3)
 1. Double-click `start_carla.bat` *(starts CARLA 0.9.16 simulator)*
 2. Double-click `start_broadcaster.bat` *(spawns vehicle rig, chase cam, and starts streaming)*
 3. Double-click `spawn_potholes.bat` *(spawns 30+ potholes across lanes)*
 
-### Step 2: Launch All 5 Perception Nodes Together
-* Double-click `start_all_nodes.bat`  
-  *(Automatically launches Radar DSP, Acoustic Sonar, Vision Detector, Sensor Fusion, Driver HMI, and NB-IoT Telemetry in separate synchronized windows!)*
+### Step 2: Launch the Dashboards
 
-### Or Launch Nodes Individually:
-* **Person 2 (Vision Detector)**: `start_pothole_detector.bat`
-* **Person 3 (Radar DSP)**: `start_radar_dsp.bat`
-* **Person 4 (Acoustic Sonar)**: `start_acoustic_sonar.bat`
-* **Person 5 (Sensor Fusion)**: `start_sensor_fusion.bat`
-* **Person 6 (Driver Cockpit HUD)**: `start_driver_hmi.bat`
-* **Person 6 (NB-IoT Cloud Dispatcher)**: `start_nbiot_telemetry.bat`
+* **🌟 New "Pothole Sense" Web Dashboard (Driver HUD & Engineer Console)**:
+  * Double-click **`start_pothole_sense_dashboard.bat`**
+  * Opens automatically in your browser at `http://localhost:8080`
+  * Features two tabs:
+    1. **Driver HUD**: Next hazard distance, depth, what to do prompt, speed widget, animated alert pill, and toggle between synthesized road vs live camera feed!
+    2. **Engineer Console**: Live 77 GHz radar scope, ground truth verification metrics, sensor confidence bars, downward sonar trace & chassis shock graph, and fusion events log.
+    3. Works both **Live with CARLA** and in **Offline Interactive Demo Mode**!
+
+* **Desktop OpenCV Cockpit**:
+  * Double-click `start_unified_dashboard.bat`
+
+* **View Evaluation Benchmark Figures**:
+  * Double-click `view_evaluation_graphs.bat` *(opens `evaluation_figures` folder)*

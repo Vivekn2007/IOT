@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>India_008773_jpg.rf.75d78ba4831beae5658cbc29c157d3db.jpg</filename>
+	<path>India_008773_jpg.rf.75d78ba4831beae5658cbc29c157d3db.jpg</path>
+	<source>
+		<database>roboflow.com</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>640</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>D50</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>166</xmin>
+			<xmax>462</xmax>
+			<ymin>480</ymin>
+			<ymax>545</ymax>
+		</bndbox>
+	</object>
+</annotation>
